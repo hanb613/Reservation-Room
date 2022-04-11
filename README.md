@@ -1,5 +1,9 @@
 # back-end
 
+### 실행 환경
+- spring boot : 2.6.6
+- mysql version : 8.0.28
+
 ### 파일명 및 변수명 규칙
 - Spring 관련 파일 : 파스칼 표기법, 카멜 표기법과 동일하지만 첫 글자를 대문자로 표기 ex) PascalCase
 - 메서드 이름 : 대소문자 혼용 가능, 반드시 동사 사용, 소문자로 시작 ex) checkRange()
