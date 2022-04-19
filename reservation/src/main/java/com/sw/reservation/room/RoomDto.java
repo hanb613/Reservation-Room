@@ -1,11 +1,11 @@
 package com.sw.reservation.room;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@ToString
 @Getter
-@Setter @NoArgsConstructor
+@Setter
+@AllArgsConstructor
 public class RoomDto {
     private String roomNumber;
     private int seatsNumber;

@@ -10,9 +10,11 @@ import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Room {
 
     @Id @GeneratedValue
@@ -25,12 +27,4 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<Core> cores = new ArrayList<>();
-
-    @Builder
-    public Room(int idx, String roomNumber, int seatsNumber, boolean computer) {
-        this.idx = idx;
-        this.roomNumber = roomNumber;
-        this.seatsNumber = seatsNumber;
-        this.computer = computer;
-    }
 }

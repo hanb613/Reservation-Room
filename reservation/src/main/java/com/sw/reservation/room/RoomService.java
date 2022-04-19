@@ -10,8 +10,8 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
 
-    public void addRoom(RoomDto roomDto){
+    public Room addRoom(RoomDto roomDto){
         Room newRoom = roomDto.toEntity();
-        roomRepository.save(newRoom);
+        return roomRepository.save(newRoom);
     }
 }
