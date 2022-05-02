@@ -1,6 +1,7 @@
 package com.sw.reservation.room;
 
 import com.sw.reservation.core.Core;
+import com.sw.reservation.room.request.RoomUpdateReq;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -27,4 +28,9 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<Core> cores = new ArrayList<>();
+
+    public void updateByRoom(int seatsNumber, boolean computer){
+        this.seatsNumber = seatsNumber;
+        this.computer = computer;
+    }
 }

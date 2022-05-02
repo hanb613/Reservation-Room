@@ -25,6 +25,7 @@ public class RoomController {
         return ResponseEntity.status(200).body(room);
     }
 
-
+    @PatchMapping
+    public
 
 }

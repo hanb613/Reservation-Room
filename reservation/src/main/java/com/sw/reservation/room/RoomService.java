@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,4 +23,8 @@ public class RoomService {
         return all;
     }
 
+    public Optional<Room> updateRoom(String roomNumber){
+        Optional<Room> roomId = roomRepository.findById(roomNumber);
+
+    }
 }
