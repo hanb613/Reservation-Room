@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Builder
 @Entity
@@ -19,7 +20,7 @@ import java.util.List;
 public class Room {
 
     @Id @GeneratedValue
-    private int idx;
+    private Long idx;
 
     private String roomNumber;
 
@@ -33,4 +34,9 @@ public class Room {
         this.seatsNumber = seatsNumber;
         this.computer = computer;
     }
+
+    public void deleteCollection() {
+        this.idx = null;
+    }
+
 }
