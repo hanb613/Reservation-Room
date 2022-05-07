@@ -1,6 +1,7 @@
 package com.sw.reservation.room;
 
 import com.sw.reservation.common.errors.NotFoundException;
+import com.sw.reservation.room.request.RoomUpdateReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,26 +17,26 @@ public class RoomService {
 
     public Room addRoom(RoomDto roomDto){
         Room newRoom = roomDto.toEntity();
+
         return roomRepository.save(newRoom);
     }
 
     public List<Room> getByRoom(){
-        List<Room> all = roomRepository.findAll();
-        System.out.println("all = " + all);
-        return all;
+        return roomRepository.findAll();
     }
 
-//    public Optional<Room> updateRoom(String roomNumber){
-//        Optional<Room> roomId = roomRepository.findById(roomNumber);
-//
-//    }
-    public boolean deleteRoom(Long seq, String roomNumber){
-        System.out.println("roomNumber = " + roomNumber);
-        Room room = roomRepository.findById(seq).get();
-        if(room.getRoomNumber().equals(roomNumber)){
-            roomRepository.deleteById(seq);
-            return true;
-        }
-        return false;
+    public Optional<Room> updateRoom(Long seq, RoomUpdateReq roomUpdateReq){
+        Room room = roomRepository.findById(seq)
+                .orElseThrow(() -> new NotFoundException("Could not find room by"+ seq));
+        room.updateByRoom(roomUpdateReq.getSeatsNumber(), roomUpdateReq.isComputer());
+        return Optional.of(
+                roomRepository.save(room)
+        );
     }
+
+    public void deleteR(Long seq){
+        roomRepository.deleteById(seq);
+    }
+
+
 }

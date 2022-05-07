@@ -35,8 +35,5 @@ public class Room {
         this.computer = computer;
     }
 
-    public void deleteCollection() {
-        this.idx = null;
-    }
 
 }
