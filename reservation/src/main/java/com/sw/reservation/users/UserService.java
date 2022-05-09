@@ -177,6 +177,7 @@ public class UserService {
 
             user.setType("1");
             user.setName(stdName);
+            // 사용시간 초과
             createUser(user);
         } else {
             fla = false;
