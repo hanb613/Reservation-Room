@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    private LoginService loginService;
+    private UserService userService;
 
     @GetMapping(value = "/login")
     public String login() throws Exception{
@@ -19,13 +19,13 @@ public class UserController {
     @RequestMapping(value="/login/0", method=RequestMethod.POST)
     public ResponseEntity<User> loginAdmin(@RequestBody UserDto userDto) throws Exception {
 
-        return loginService.postAdmin(userDto);
+        return userService.postAdmin(userDto);
     }
 
     /* 학생 로그인 */
     @RequestMapping(value="/login/1", method=RequestMethod.POST)
     public ResponseEntity<User> loginStudent(@RequestBody UserDto userDto) throws Exception {
 
-        return loginService.postStudent(userDto);
+        return userService.postStudent(userDto);
     }
 }
