@@ -12,21 +12,24 @@ public class UserDto {
     private String id;
     private String password;
     private String name;
+    private String count;
 
     @Builder
-    public UserDto(String type, String id, String name, String password){
-        this.type = type;
+    public UserDto(String id, String password, String name, String count, String type){
         this.id = id;
         this.password = password;
         this.name = name;
+        this.count = count;
+        this.type = type;
     }
 
     public User toEntity(){
         return User.builder()
-                .type(type)
-                .id(id)
-                .password(password)
-                .name(name)
-                .build();
+                    .id(id)
+                    .password(password)
+                    .name(name)
+                    .count(count)
+                    .type(type)
+                    .build();
     }
 }
