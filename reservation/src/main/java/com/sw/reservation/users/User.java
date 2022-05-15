@@ -1,9 +1,11 @@
 package com.sw.reservation.users;
 
+import com.sw.reservation.core.Core;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -13,9 +15,14 @@ import javax.persistence.Id;
 public class User {
 
     @Id
+    private Long studentId;
+
     private String type;
-    private String id;
+    private Integer count;
     private String password;
     private String name;
+
+    @OneToMany(mappedBy = "studentId")
+    private List<Core> core = new ArrayList<>();
 
 }

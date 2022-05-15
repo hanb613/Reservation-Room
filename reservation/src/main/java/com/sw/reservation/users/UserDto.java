@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 public class UserDto {
 
     private String type;
-    private String id;
+    private Long studentId;
     private String password;
     private String name;
 
     @Builder
-    public UserDto(String type, String id, String name, String password){
+    public UserDto(String type, Long studentId, String name, String password){
         this.type = type;
-        this.id = id;
+        this.studentId = studentId;
         this.password = password;
         this.name = name;
     }
@@ -24,7 +24,7 @@ public class UserDto {
     public User toEntity(){
         return User.builder()
                 .type(type)
-                .id(id)
+                .studentId(studentId)
                 .password(password)
                 .name(name)
                 .build();

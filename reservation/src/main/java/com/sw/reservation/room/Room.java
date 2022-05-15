@@ -1,20 +1,15 @@
 package com.sw.reservation.room;
 
 import com.sw.reservation.core.Core;
-import com.sw.reservation.room.request.RoomUpdateReq;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Builder
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Room {
@@ -27,8 +22,19 @@ public class Room {
     private int seatsNumber;
     private boolean computer;
 
-    @OneToMany(mappedBy = "room")
-    private List<Core> cores = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @OneToOne
+    private Core core;
+
+    public void changeReserved(){
+        this.status = Status.RESERVED;
+    }
+
+    public void changeUnReserved(){
+        this.status = Status.UNRESERVED;
+    }
 
     public void updateByRoom(int seatsNumber, boolean computer){
         this.seatsNumber = seatsNumber;
