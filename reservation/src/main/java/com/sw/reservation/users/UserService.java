@@ -31,7 +31,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public String getUserId(User user){ return user.getId(); }
 
     @Autowired
     private static Hashtable<String, String> loginUsers = new Hashtable<String, String>();
@@ -86,7 +85,7 @@ public class UserService {
     public ResponseEntity<User> postStudent(UserDto userDto) throws IOException{
         User user = userDto.toEntity();
 
-        String stdId = userDto.getId();
+        String stdId = userDto.getStudentId().toString();
         String stdPw = userDto.getPassword();
         String stdName;
 
