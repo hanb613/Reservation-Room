@@ -33,10 +33,10 @@ public class UserService {
 
 
     @Autowired
-    private static Hashtable<String, String> loginUsers = new Hashtable<String, String>();
+    private static Hashtable<String, Long> loginUsers = new Hashtable<String, Long>();
 
     /* 로그인이 되어있는지 확인 */
-    public boolean isLogin(String id) {
+    public boolean isLogin(Long id) {
         boolean isLogin = false;
         Enumeration<String> e = loginUsers.keys();
         String key = "";
@@ -50,19 +50,19 @@ public class UserService {
 
     /* 로그인 */
     public boolean userLogin(UserDto userDto, HttpSession session) throws IOException {
-        boolean isLogin = isLogin(userDto.getId());
+        boolean isLogin = isLogin(userDto.getStudentId());
 
         if(!isLogin){ /* 로그인이 안되있으면 */
             ResponseEntity<User> user = postStudent(userDto);
-            Optional<User> findUser = userRepository.findByIdAndPassword(user.getBody().getId(), user.getBody().getPassword());
+            Optional<User> findUser = userRepository.findByStudentIdAndPassword(user.getBody().getStudentId(), user.getBody().getPassword());
 
             boolean result = false;
 
             if(!findUser.isEmpty() && findUser.get().getName() != null) result = true;
 
             if(result){
-                loginUsers.put(session.getId(), userDto.getId());
-                session.setAttribute("id", userDto.getId());
+                loginUsers.put(session.getId(), userDto.getStudentId());
+                session.setAttribute("id", userDto.getStudentId());
                 System.out.println("Login");
             }
 
@@ -132,15 +132,15 @@ public class UserService {
         if(!stdName.equals("")) {
             System.out.println("Available user");
 
-            Optional<User> findUser = userRepository.findByIdAndPassword(user.getId(), user.getPassword());
+            Optional<User> findUser = userRepository.findByStudentIdAndPassword(user.getStudentId(), user.getPassword());
 
             if(findUser.isEmpty()){ // db에 저장 X
                 user.setType("1");
                 user.setName(stdName);
-                user.setCount("0");
+                user.setCount(0);
                 createUser(user);
             } else {
-                if(findUser.get().getCount().equals("1")){ // 1회 사용 시간 초과
+                if(findUser.get().getCount().equals(1)){ // 1회 사용 시간 초과
                     //System.out.println("1회 사용시간 초과");
                     throw new NotFoundException("1회 사용시간 초과");
                 }

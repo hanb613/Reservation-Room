@@ -20,7 +20,6 @@ public class User {
     private String password;
     private String name;
     private Integer count;
-    private String type;
 
     @OneToMany(mappedBy = "studentId")
     private List<Core> core = new ArrayList<>();
