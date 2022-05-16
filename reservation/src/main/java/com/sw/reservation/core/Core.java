@@ -1,39 +1,44 @@
 package com.sw.reservation.core;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sw.reservation.core.request.PostReservationReq;
 import com.sw.reservation.room.Room;
 import com.sw.reservation.users.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
-@Builder
 @ToString
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 public class Core {
 
     @Id @GeneratedValue
-    private Long id;
+    private Long coreId;
 
-    private String studentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_Id")
+    private User studentId;
 
-    private Timestamp createdAt;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
+    private Room roomId;
 
-    @OneToOne
-    Room room;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ddTHH:mm", timezone = "Asia/Seoul")
+    private LocalDateTime startTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ddTHH:mm", timezone = "Asia/Seoul")
+    private LocalDateTime endTime;
 
-    @OneToOne
-    User user;
 
-    public static Core createCore(User user, Room room){
-        Core core= new Core();
-        user.setCore(core);
-        room.setCore(core);
-        room.changeReserved();
-        return core;
+    public Core(PostReservationReq postReservationReq, User user, Room room) {
+        this.studentId = user;
+        this.roomId = room;
+        this.startTime = postReservationReq.getStartTime();
+        this.endTime =  postReservationReq.getEndTime();
     }
 }
