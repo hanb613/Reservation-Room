@@ -53,7 +53,7 @@ public class QuestionService {
 
         if(questionRepository.findByNo(no).get().getWriter().equals(sessionUser)){
             Question question = questionRepository.findByNo(no)
-                    .orElseThrow(() -> new NotFoundException("Could not find board by" + no));
+                    .orElseThrow(() -> new NotFoundException("Could not find question by" + no));
 
             question.updateByQuestion(questionUpdateReq.getTitle(), questionUpdateReq.getContent());
             return Optional.of(

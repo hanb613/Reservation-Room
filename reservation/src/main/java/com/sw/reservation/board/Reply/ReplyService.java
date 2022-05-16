@@ -36,7 +36,7 @@ public class ReplyService {
     @Transactional
     public Optional<Reply> updateReply(Long no, ReplyUpdateReq replyUpdateReq){
         Reply reply = replyRepository.findByNo(no)
-                .orElseThrow(() -> new NotFoundException("Could not find board by" + no));
+                .orElseThrow(() -> new NotFoundException("Could not find reply by" + no));
 
         reply.updateByReply(replyUpdateReq.getContent());
         return Optional.of(
