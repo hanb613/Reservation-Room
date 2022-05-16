@@ -1,13 +1,15 @@
 package com.sw.reservation.room;
 
 import com.sw.reservation.common.errors.NotFoundException;
+import com.sw.reservation.common.utils.ApiUtils.ApiResult;
+import com.sw.reservation.room.request.PostRoomReq;
 import com.sw.reservation.room.request.RoomUpdateReq;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
+import static com.sw.reservation.common.utils.ApiUtils.success;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,29 +19,25 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping
-    public ResponseEntity<Room> createRoom(@RequestBody RoomDto roomDto){
-        Room room = roomService.addRoom(roomDto);
-        return ResponseEntity.status(200).body(room);
+    public ApiResult<Room> createRoom(@RequestBody PostRoomReq postRoomReq){
+        return success(roomService.createRoom(postRoomReq));
     }
 
     @GetMapping
-    public ResponseEntity<?> getRoom(){
+    public ApiResult<List<Room>> getRoom(){
         List<Room> byRoom = roomService.getByRoom();
-        return ResponseEntity.status(200).body(byRoom);
+        return success(byRoom);
     }
 
-
     @DeleteMapping("/{seq}")
-    public ResponseEntity<Long> deleteRoom(@PathVariable Long seq){
-        roomService.deleteR(seq);
-        return ResponseEntity.status(200).body(seq);
+    public ApiResult<Long> deleteRoom(@PathVariable Long seq){
+        roomService.deleteRoom(seq);
+        return success(seq);
     }
 
     @PatchMapping("/{seq}")
-    public ResponseEntity<Room> updateRoom(@PathVariable Long seq, @RequestBody RoomUpdateReq roomUpdateReq){
-        return ResponseEntity.status(200).body(
-                roomService.updateRoom(seq, roomUpdateReq)
-                        .orElseThrow(() -> new NotFoundException("update 안되었습니다."))
-        );
+    public ApiResult<Room> updateRoom(@PathVariable Long seq, @RequestBody RoomUpdateReq roomUpdateReq){
+        return success(roomService.updateRoom(seq, roomUpdateReq)
+                        .orElseThrow(() -> new NotFoundException("update 실패했습니다.")));
     }
 }
