@@ -4,35 +4,23 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
 @Getter
 @NoArgsConstructor
 public class BoardDto {
 
-    private String no;
     private String title;
     private String content;
     private String writer;
     private String date;
-    private String viewCnt;
 
     @Builder
-    public BoardDto(String no, String title, String content, String writer, String date, String viewCnt){
-        this.no = no;
+    public BoardDto(String title, String content, String writer, String date){
         this.title = title;
         this.content = content;
         this.writer = writer;
         this.date = date;
-        this.viewCnt = viewCnt;
     }
 
-    public Board toEntity(){
-        return Board.builder()
-                .no(no)
-                .title(title)
-                .content(content)
-                .writer(writer)
-                .date(date)
-                .viewCnt(viewCnt)
-                .build();
-    }
 }
