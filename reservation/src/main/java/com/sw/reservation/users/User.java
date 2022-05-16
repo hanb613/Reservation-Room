@@ -16,11 +16,10 @@ public class User {
 
     @Id
     private Long studentId;
-
     private String type;
-    private Integer count;
     private String password;
     private String name;
+    private Integer count;
 
     @OneToMany(mappedBy = "studentId")
     private List<Core> core = new ArrayList<>();
