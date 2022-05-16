@@ -21,12 +21,12 @@ public class HttpSessionUtils {
     }
 
     /* session 에 저장된 값을 가져오는 메서드 */
-    public static String getUserFromSession(HttpSession session) {
+    public static Long getUserFromSession(HttpSession session) {
 
         if ( !isLoginUser(session) ) {
             return null;
         }
 
-        return (String) session.getAttribute(USER_SESSION_KEY);
+        return (Long) session.getAttribute(USER_SESSION_KEY);
     }
 }

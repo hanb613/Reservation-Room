@@ -22,7 +22,7 @@ public class BoardService {
         Board newBoard = new Board();
 
         // 현재 로그인되어 있는 회원의 정보를 sessionUser 에 복사
-        String sessionUser = HttpSessionUtils.getUserFromSession(session);
+        String sessionUser = HttpSessionUtils.getUserFromSession(session).toString();
 
         newBoard.setTitle(boardDto.getTitle());
         newBoard.setContent(boardDto.getContent());
