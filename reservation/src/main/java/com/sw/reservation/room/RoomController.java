@@ -4,6 +4,8 @@ import com.sw.reservation.common.errors.NotFoundException;
 import com.sw.reservation.common.utils.ApiUtils.ApiResult;
 import com.sw.reservation.room.request.PostRoomReq;
 import com.sw.reservation.room.request.RoomUpdateReq;
+import com.sw.reservation.room.response.RoomGetRes;
+import com.sw.reservation.room.response.RoomUpdateRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +26,9 @@ public class RoomController {
     }
 
     @GetMapping
-    public ApiResult<List<Room>> getRoom(){
-        List<Room> byRoom = roomService.getByRoom();
-        return success(byRoom);
+    public ApiResult<RoomGetRes> getRoom(){
+        return success(new RoomGetRes(roomService.getByRoom())
+        );
     }
 
     @DeleteMapping("/{seq}")
@@ -36,8 +38,10 @@ public class RoomController {
     }
 
     @PatchMapping("/{seq}")
-    public ApiResult<Room> updateRoom(@PathVariable Long seq, @RequestBody RoomUpdateReq roomUpdateReq){
-        return success(roomService.updateRoom(seq, roomUpdateReq)
-                        .orElseThrow(() -> new NotFoundException("update 실패했습니다.")));
+    public ApiResult<RoomUpdateRes> updateRoom(@PathVariable Long seq, @RequestBody RoomUpdateReq roomUpdateReq){
+        return success(new RoomUpdateRes(roomService.updateRoom(seq, roomUpdateReq)
+                .map(RoomDto::new)
+                .orElseThrow(() -> new NotFoundException("update 실패했습니다.")))
+        );
     }
 }
