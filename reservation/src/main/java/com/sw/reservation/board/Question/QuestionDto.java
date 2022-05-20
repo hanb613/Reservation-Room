@@ -1,4 +1,4 @@
-package com.sw.reservation.board;
+package com.sw.reservation.board.Question;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
-public class BoardDto {
+public class QuestionDto {
 
     private String title;
     private String content;
@@ -16,7 +16,7 @@ public class BoardDto {
     private String date;
 
     @Builder
-    public BoardDto(String title, String content, String writer, String date){
+    public QuestionDto(String title, String content, String writer, String date){
         this.title = title;
         this.content = content;
         this.writer = writer;

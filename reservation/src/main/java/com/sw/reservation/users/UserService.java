@@ -78,7 +78,6 @@ public class UserService {
     public void userLogout(HttpSession session) throws Exception {
         loginUsers.remove(session.getId());
         session.invalidate();
-        System.out.println("Logout");
     }
 
     /* 학생 로그인 */
@@ -140,14 +139,13 @@ public class UserService {
                 user.setCount(0);
                 createUser(user);
             } else {
-                if(findUser.get().getCount().equals(1)){ // 1회 사용 시간 초과
-                    //System.out.println("1회 사용시간 초과");
-                    throw new NotFoundException("1회 사용시간 초과");
+                if(findUser.get().getCount().equals(1)){
+                    throw new NotFoundException("사용시간을 1회 초과하였습니다.");
                 }
             }
 
         } else {
-            System.out.println("Denied user");
+            throw new NotFoundException("로그인 정보를 올바르게 입력 해주세요.");
         }
 
         return ResponseEntity.status(200).body(user);

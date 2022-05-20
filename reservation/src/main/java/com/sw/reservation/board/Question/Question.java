@@ -1,4 +1,4 @@
-package com.sw.reservation.board;
+package com.sw.reservation.board.Question;
 
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,7 +18,7 @@ import java.util.Date;
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-public class Board {
+public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,5 +41,10 @@ public class Board {
     @PreUpdate
     public void onPreUpdate(){
         this.lastUpdatedDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+    }
+
+    public void updateByQuestion(String title, String content){
+        this.title = title;
+        this.content = content;
     }
 }
