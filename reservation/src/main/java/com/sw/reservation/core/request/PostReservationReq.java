@@ -1,12 +1,16 @@
 package com.sw.reservation.core.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sw.reservation.users.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,4 +26,6 @@ public class PostReservationReq {
     private Long roomId;
     private Long studentId;
 
+    private List<Long> withStudent;
+    private Integer extension;
 }

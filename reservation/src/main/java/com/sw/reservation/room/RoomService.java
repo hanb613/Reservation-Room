@@ -1,13 +1,17 @@
 package com.sw.reservation.room;
 
 import com.sw.reservation.common.errors.NotFoundException;
+import com.sw.reservation.core.Core;
+import com.sw.reservation.core.CoreRepository;
 import com.sw.reservation.room.request.PostRoomReq;
 import com.sw.reservation.room.request.RoomUpdateReq;
+import com.sw.reservation.room.response.RoomUpdateRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -15,6 +19,7 @@ import java.util.Optional;
 public class RoomService {
 
     private final RoomRepository roomRepository;
+    private final CoreRepository coreRepository;
 
     public Room createRoom(PostRoomReq postRoomReq){
         if(postRoomReq.getRoomNumber() == null){
@@ -24,8 +29,9 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
-    public List<Room> getByRoom(){
-        return roomRepository.findAll();
+    public List<RoomDto> getByRoom(){
+        return roomRepository.findAll().stream()
+                .map(RoomDto::new).collect(Collectors.toList());
     }
 
     public Optional<Room> updateRoom(Long seq, RoomUpdateReq roomUpdateReq){
@@ -38,6 +44,11 @@ public class RoomService {
     }
 
     public void deleteRoom(Long seq){
+        Optional<Room> byRoomId = roomRepository.findByRoomId(seq);
+        List<Core> checkRoomId = coreRepository.findByRoomId(byRoomId.get());
+        if(!checkRoomId.isEmpty()){
+            throw new NotFoundException("예약된 좌석이 있습니다.");
+        }
         roomRepository.deleteById(seq);
     }
 
