@@ -10,6 +10,10 @@ public class ApiUtils {
         return new ApiResult<>(true, response, null);
     }
 
+    public static <T> ApiResult<T> fail(T response) {
+        return new ApiResult<>(false, response, null);
+    }
+
     public static ApiResult<?> error(Throwable throwable, HttpStatus status) {
         return new ApiResult<>(false, null, new ApiError(throwable, status));
     }
