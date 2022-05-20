@@ -5,9 +5,11 @@ import com.sw.reservation.core.request.PostReservationReq;
 import com.sw.reservation.room.Room;
 import com.sw.reservation.users.User;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,11 +36,18 @@ public class Core {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-ddTHH:mm", timezone = "Asia/Seoul")
     private LocalDateTime endTime;
 
+    private Integer extension;
+
+    @PrePersist
+    public void prePersist() {
+        this.extension = this.extension == null ? 0 : this.extension;
+    }
 
     public Core(PostReservationReq postReservationReq, User user, Room room) {
         this.studentId = user;
         this.roomId = room;
         this.startTime = postReservationReq.getStartTime();
         this.endTime =  postReservationReq.getEndTime();
+        this.extension = postReservationReq.getExtension();
     }
 }
