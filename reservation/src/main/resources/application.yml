@@ -1,6 +1,9 @@
 server:
   port: 8090
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/reservation?serverTimezone=UTC&characterEncoding=UTF-8
@@ -11,3 +14,5 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
+        jdbc:
+          time_zone: UTC
