@@ -4,12 +4,16 @@ import com.sw.reservation.board.Question.request.QuestionUpdateReq;
 import com.sw.reservation.common.errors.NotFoundException;
 import com.sw.reservation.common.web.HttpSessionUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -43,8 +47,8 @@ public class QuestionService {
         }
     }
 
-    public List<Question> getByQuestion(){
-        return questionRepository.findAll();
+    public Page<Question> getByQuestion(Pageable pageable){
+        return questionRepository.findAll(pageable);
     }
 
     @Transactional

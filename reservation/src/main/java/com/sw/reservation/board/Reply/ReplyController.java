@@ -20,10 +20,11 @@ public class ReplyController {
     @Autowired
     private ReplyService replyService;
 
-    @Autowired
-    private ReplyRepository replyRepository;
+    public ReplyController(ReplyService replyService) {
+        this.replyService = replyService;
+    }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ApiResult<List<Reply>> getReply() {
         List<Reply> getByReply = replyService.getByReply();
 

@@ -6,6 +6,10 @@ import com.sw.reservation.common.web.HttpSessionUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import com.sw.reservation.common.utils.ApiUtils.ApiResult;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -19,14 +23,15 @@ import static com.sw.reservation.common.utils.ApiUtils.success;
 public class QuestionController {
 
     @Autowired
-    private QuestionService questionService;
+    private final QuestionService questionService;
 
-    @Autowired
-    private QuestionRepository questionRepository;
+    public QuestionController(QuestionService questionService) {
+        this.questionService = questionService;
+    }
 
-    @GetMapping("/")
-    public ApiResult<List<Question>> getBoard() {
-        List<Question> getByQuestion = questionService.getByQuestion();
+    @GetMapping("")
+    public ApiResult<Page<Question>> getBoard(@PageableDefault(size = 10, sort = "no", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Question> getByQuestion = questionService.getByQuestion(pageable);
 
         return success(getByQuestion);
     }
