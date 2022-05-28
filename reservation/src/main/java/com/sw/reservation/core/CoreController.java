@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,7 @@ public class CoreController {
      * }
      */
     @PostMapping
-    public ApiResult<String> createCore(@RequestBody PostReservationReq postReservationReq, HttpSession session){
+    public ApiResult<String> createCore(@Valid @RequestBody PostReservationReq postReservationReq, HttpSession session){
         return success(coreService.createCore(postReservationReq, session));
     }
 

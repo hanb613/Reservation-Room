@@ -5,7 +5,6 @@ import com.sw.reservation.core.Core;
 import com.sw.reservation.core.CoreRepository;
 import com.sw.reservation.room.request.PostRoomReq;
 import com.sw.reservation.room.request.RoomUpdateReq;
-import com.sw.reservation.room.response.RoomUpdateRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +21,12 @@ public class RoomService {
     private final CoreRepository coreRepository;
 
     public Room createRoom(PostRoomReq postRoomReq){
-        if(postRoomReq.getRoomNumber() == null){
-            throw new NotFoundException("강의실 번호를 입력해주세요");
+        Optional<Room> byRoomNumber = roomRepository.findByRoomNumber(postRoomReq.getRoomNumber());
+        boolean present = byRoomNumber.isPresent();
+        if(byRoomNumber.isPresent()){
+            throw new NotFoundException("동일한 강의실 번호가 존재합니다.");
         }
+
         Room room = new Room(postRoomReq);
         return roomRepository.save(room);
     }

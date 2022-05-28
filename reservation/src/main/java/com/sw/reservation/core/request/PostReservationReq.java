@@ -20,10 +20,14 @@ public class PostReservationReq {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime startTime;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime endTime;
 
+    @NotNull(message = "roomId must be provided")
     private Long roomId;
+
+    @NotNull(message = "studentId must be provided")
     private Long studentId;
 
     private List<Long> withStudent;
