@@ -10,14 +10,13 @@ import static com.sw.reservation.common.utils.ApiUtils.fail;
 import static com.sw.reservation.common.utils.ApiUtils.success;
 
 @RestController
-@RequestMapping(value="/login")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     /* 학생 로그인 */
-    @PostMapping
+    @PostMapping("/login")
     public ApiResult<String> login(@RequestBody UserDto userDto, HttpSession session) throws Exception {
 
         boolean result = userService.userLogin(userDto, session);
