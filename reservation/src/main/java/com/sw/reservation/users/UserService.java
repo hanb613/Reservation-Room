@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,8 @@ public class UserService {
 
     private static String userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36";
 
-    String stdUrl = "https://student.donga.ac.kr/Login.aspx";
-    String stdInfoUrl = "https://student.donga.ac.kr/Univ/SUD/SSUD0000.aspx?m=1";
-
-    String adminUrl = "https://gw.donga.ac.kr/Login.aspx";
-    String adminInfoUrl = "https://student.donga.ac.kr/Univ/SUD/SSUD0000.aspx?m=1"; // 수정 필요
+    String stdUrl = "https://sugang.donga.ac.kr/Login.aspx";
+    String stdInfoUrl = "https://sugang.donga.ac.kr/SUGANGINDTIMEPRT.aspx";
 
     public User createUser(User user){
         return userRepository.save(user);
@@ -90,10 +88,10 @@ public class UserService {
 
         // hidden (__VIEWSTATE, __VIEWSTATEGENERATOR, __EVENTVALIDATION) 값 가져오기
         Connection.Response loginPageResponse = Jsoup.connect(stdUrl)
-                                                    .header("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-                                                    .header("Content-Type", "text/html; charset=utf-8")
-                                                    .method(Connection.Method.GET)
-                                                    .execute();
+                .header("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+                .header("Content-Type", "text/html; charset=utf-8")
+                .method(Connection.Method.GET)
+                .execute();
 
         Map<String, String> loginTryCookie = loginPageResponse.cookies();
 
@@ -112,23 +110,28 @@ public class UserService {
         data.put("ibtnLogin.y", "249");
 
         Connection.Response response = Jsoup.connect(stdUrl)
-                                            .userAgent(userAgent)
-                                            .header("Referer", stdUrl)
-                                            .data(data)
-                                            .cookies(loginTryCookie)
-                                            .method(Connection.Method.POST)
-                                            .execute();
+                .userAgent(userAgent)
+                .header("Referer", stdUrl)
+                .data(data)
+                .cookies(loginTryCookie)
+                .method(Connection.Method.POST)
+                .execute();
 
         Map<String, String> loginCookie = response.cookies();
 
         Document InfoPageDocument = Jsoup.connect(stdInfoUrl)
-                                        .userAgent(userAgent)
-                                        .cookies(loginCookie)
-                                        .get();
+                .userAgent(userAgent)
+                .cookies(loginCookie)
+                .get();
 
-        stdName = InfoPageDocument.select("#lblKorNm").text();
+        Elements infoTable = InfoPageDocument.select("#Table1 tbody tr td");
 
-        if(!stdName.equals("")) {
+        if(infoTable.size() == 0 ){
+            throw new NotFoundException("로그인 정보를 올바르게 입력 해주세요.");
+        }
+
+        else{
+            stdName = infoTable.get(5).text();
             System.out.println("Available user");
 
             Optional<User> findUser = userRepository.findByStudentIdAndPassword(user.getStudentId(), user.getPassword());
@@ -143,9 +146,6 @@ public class UserService {
                     throw new NotFoundException("사용시간을 1회 초과하였습니다.");
                 }
             }
-
-        } else {
-            throw new NotFoundException("로그인 정보를 올바르게 입력 해주세요.");
         }
 
         return ResponseEntity.status(200).body(user);
