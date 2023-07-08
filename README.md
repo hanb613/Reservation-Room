@@ -4,7 +4,7 @@
 
 <br>  
 
-##  ✨ 팀 정보
+##  ✨ [팀 정보](https://github.com/softwareProject-teamKim)
 - 박우빈 - FrontEnd
 - 김지민 - FrontEnd
 - 유영서 - BackEnd
