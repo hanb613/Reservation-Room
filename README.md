@@ -4,14 +4,6 @@
 
 <br>  
 
-##  ✨ [팀 정보](https://github.com/softwareProject-teamKim)
-- 박우빈 - FrontEnd
-- 김지민 - FrontEnd
-- 유영서 - BackEnd
-- 황주원  - BackEnd
-
-<br>  
-
 ## ⌚ 개발 기간
 `2022.03.23 ~ 2022.06.10`
 
@@ -42,3 +34,27 @@
 ### Cooperation <br>
   ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
   ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
+
+<br>  
+
+## ✨ [팀원 정보](https://github.com/softwareProject-teamKim)
+<table>
+ <tr align="center">
+   <th colspan="2">Front-End</th>
+   <th colspan="2">Back-End</th>
+ </tr>
+ <tr align = "center">
+  <td>
+   김지민
+  </td>
+  <td>
+   박우빈
+  </td>
+    <td>
+   유영서
+  </td>
+    <td>
+   황주원
+  </td>
+ </tr>
+</table>
